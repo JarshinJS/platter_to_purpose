@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero fade-in">
+    <div class="hero-content">
+        <h1>Bridge the Gap Between<br>Surplus & Scarcity</h1>
+        <p>Join our mission to eliminate food waste. We connect hotels with surplus food to orphanages in need, creating
+            a sustainable cycle of giving.</p>
+
+        <div style="display: flex; gap: 16px; justify-content: center;">
+            <a href="{% url 'food_list' %}" class="btn">Browse Food</a>
+            {% if not user.is_authenticated %}
+            <a href="{% url 'signup' %}" class="btn btn-outline" style="background: rgba(255,255,255,0.1);">Join as
+                Hotel</a>
+            {% endif %}
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-number">500+</span>
+                <span class="stat-label">Meals Saved</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Partner Hotels</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">20+</span>
+                <span class="stat-label">Care Homes</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container fade-in" style="animation-delay: 0.2s;">
+    <h2 style="text-align: center; margin-bottom: 40px; font-size: 2.5rem; font-weight: 700;">How It Works</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 32px;">
+        <div class="card"
+            style="flex: 1 1 300px; max-width: 400px; text-align: center; position: relative; overflow: hidden;">
+            <div
+                style="font-size: 3.5rem; margin-bottom: 20px; background: var(--light); width: 80px; height: 80px; line-height: 80px; border-radius: 50%; margin-left: auto; margin-right: auto;">
+                🏨</div>
+            <h3 style="margin-bottom: 12px; font-size: 1.25rem;">1. Hotels Post Surplus</h3>
+            <p style="color: var(--gray);">Hotels list available food details, including quantity, type, and pickup
+                window.</p>
+        </div>
+        <div class="card" style="flex: 1 1 300px; max-width: 400px; text-align: center;">
+            <div
+                style="font-size: 3.5rem; margin-bottom: 20px; background: var(--light); width: 80px; height: 80px; line-height: 80px; border-radius: 50%; margin-left: auto; margin-right: auto;">
+                📱</div>
+            <h3 style="margin-bottom: 12px; font-size: 1.25rem;">2. Orphanages Browse</h3>
+            <p style="color: var(--gray);">Care homes view real-time listings nearby and reserve food that meets their
+                needs.</p>
+        </div>
+        <div class="card" style="flex: 1 1 300px; max-width: 400px; text-align: center;">
+            <div
+                style="font-size: 3.5rem; margin-bottom: 20px; background: var(--light); width: 80px; height: 80px; line-height: 80px; border-radius: 50%; margin-left: auto; margin-right: auto;">
+                🚚</div>
+            <h3 style="margin-bottom: 12px; font-size: 1.25rem;">3. Claim & Collect</h3>
+            <p style="color: var(--gray);">Orphanages secure the claim via the app and arrange for immediate pickup.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

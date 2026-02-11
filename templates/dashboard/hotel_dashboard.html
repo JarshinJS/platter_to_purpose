@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 style="margin-bottom: 24px;">Hotel Dashboard</h2>
+
+    <div style="display: flex; gap: 24px;">
+        <div style="flex: 1;">
+            <div class="card" style="margin-bottom: 24px;">
+                <h3>Stats</h3>
+                <div style="display: flex; gap: 24px; margin-top: 16px;">
+                    <div>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">{{ my_posts.count }}
+                        </div>
+                        <div>Total Posts</div>
+                    </div>
+                    <!-- Placeholder for future stats -->
+                    <div>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--secondary);">0</div>
+                        <div>Meals Saved</div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="{% url 'post_food' %}" class="btn"
+                style="width: 100%; text-align: center; margin-bottom: 24px;">Create New Post</a>
+
+            <a href="{% url 'verify_pickup' %}" class="btn btn-outline"
+                style="width: 100%; text-align: center; margin-bottom: 24px;">Verify Pickup (QR)</a>
+        </div>
+
+        <div style="flex: 2;">
+            <div class="card">
+                <h3 style="margin-bottom: 16px;">My Active Posts</h3>
+                {% if my_posts %}
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid #eee; text-align: left;">
+                            <th style="padding: 12px;">Title</th>
+                            <th style="padding: 12px;">Date</th>
+                            <th style="padding: 12px;">Status</th>
+                            <th style="padding: 12px;">Rating</th>
+                            <th style="padding: 12px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in my_posts %}
+                        <tr style="border-bottom: 1px solid #f9f9f9;">
+                            <td style="padding: 12px;">{{ post.title }}</td>
+                            <td style="padding: 12px;">{{ post.created_at|date:"M d" }}</td>
+                            <td style="padding: 12px;">
+                                {% if post.is_claimed %}
+                                <span class="badge badge-hotel">Claimed</span>
+                                {% else %}
+                                <span class="badge badge-expiry">Active</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding: 12px;">
+                                {{ post.get_rating_stars|default:"-" }}
+                            </td>
+                            <td style="padding: 12px;">
+                                <a href="{% url 'food_detail' post.pk %}" style="color: var(--primary);">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>No posts yet. Start sharing!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

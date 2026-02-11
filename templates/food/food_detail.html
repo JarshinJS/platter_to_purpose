@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="max-width: 800px;">
+    <a href="{% url 'food_list' %}" style="margin-bottom: 20px; display: inline-block;">&larr; Back to Listings</a>
+
+    <div class="card" style="padding: 40px;">
+        <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
+                {% if food.image %}
+                <img src="{{ food.image.url }}" alt="{{ food.title }}" style="width: 100%; border-radius: 12px;">
+                {% else %}
+                <div
+                    style="height: 300px; background: #eee; display: flex; align-items: center; justify-content: center; border-radius: 12px;">
+                    <span style="font-size: 5rem;">🍲</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div style="flex: 1; min-width: 300px;">
+                <h1 style="margin-bottom: 8px;">{{ food.title }}</h1>
+                <p style="color: #666; margin-bottom: 24px;">Provided by <strong>{{ food.donor.username }}</strong></p>
+
+                <div style="margin-bottom: 24px;">
+                    <div style="margin-bottom: 8px;"><strong>Quantity:</strong> {{ food.quantity }} Servings</div>
+                    <div style="margin-bottom: 8px;"><strong>Location:</strong> {{ food.location }}</div>
+                    <div style="margin-bottom: 8px;"><strong>Expires:</strong> {{ food.expiry_time }}</div>
+                </div>
+
+                <p style="margin-bottom: 32px; line-height: 1.6;">{{ food.description }}</p>
+
+                {% if user.is_authenticated %}
+                {% if user.is_orphanage %}
+                <form action="{% url 'claim_food' food.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn" style="width: 100%;">Claim This Food</button>
+                </form>
+                {% else %}
+                <button class="btn btn-secondary" disabled style="width: 100%; cursor: not-allowed;">Only Orphanages Can
+                    Claim</button>
+                {% endif %}
+                {% else %}
+                <a href="{% url 'login' %}?next={{ request.path }}" class="btn"
+                    style="width: 100%; text-align: center;">Login to Claim</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
